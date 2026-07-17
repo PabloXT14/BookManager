@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BookManager.Application/BookManager.Application.csproj" />
+    <Project Path="src/BookManager.Communication/BookManager.Communication.csproj" />
+    <Project Path="src/BookManager.Domain/BookManager.Domain.csproj" />
+    <Project Path="src/BookManager.Exception/BookManager.Exception.csproj" />
+    <Project Path="src/BookManager.Infrastructure/BookManager.Infrastructure.csproj" />
+    <Project Path="src/BookManager.Web/BookManager.Web.csproj" />
+  </Folder>
+</Solution>
