@@ -2,31 +2,12 @@
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-      "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: 'Inter', sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-gray-100: #f3f3f5;
-    --color-gray-200: #e1e1e6;
-    --color-gray-300: #d1d5dc;
-    --color-gray-400: #717182;
-    --color-gray-500: #0a0a0a;
     --spacing: 0.25rem;
-    --radius-lg: 0.5rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --color-overlay: rgba(0, 0, 0, 0.5);
-    --color-navy-dark: #211f42;
-    --color-navy-low: #030213;
-    --color-yellow-base: #894b00;
-    --color-yellow-bright: #fdc700;
-    --color-yellow-light: #fef9c2;
-    --color-blue-base: #193cb8;
-    --color-blue-light: #dbeafe;
-    --color-green-base: #016630;
-    --color-green-light: #dcfce7;
-    --color-red-bright: #d4183d;
   }
 }
 @layer base {
@@ -184,69 +165,56 @@
   .flex {
     display: flex;
   }
-  .size-10 {
-    width: calc(var(--spacing) * 10);
-    height: calc(var(--spacing) * 10);
-  }
-  .items-center {
-    align-items: center;
+  .flex-col {
+    flex-direction: column;
   }
   .gap-3 {
     gap: calc(var(--spacing) * 3);
   }
-  .rounded-lg {
-    border-radius: var(--radius-lg);
-  }
-  .bg-blue-base {
-    background-color: var(--color-blue-base);
-  }
-  .bg-blue-light {
-    background-color: var(--color-blue-light);
-  }
-  .bg-gray-100 {
-    background-color: var(--color-gray-100);
-  }
-  .bg-gray-200 {
-    background-color: var(--color-gray-200);
-  }
-  .bg-gray-300 {
-    background-color: var(--color-gray-300);
-  }
-  .bg-gray-400 {
-    background-color: var(--color-gray-400);
-  }
-  .bg-gray-500 {
-    background-color: var(--color-gray-500);
-  }
-  .bg-green-base {
-    background-color: var(--color-green-base);
-  }
-  .bg-green-light {
-    background-color: var(--color-green-light);
-  }
-  .bg-navy-dark {
-    background-color: var(--color-navy-dark);
-  }
-  .bg-navy-low {
-    background-color: var(--color-navy-low);
-  }
-  .bg-overlay {
-    background-color: var(--color-overlay);
-  }
-  .bg-red-bright {
-    background-color: var(--color-red-bright);
-  }
-  .bg-yellow-base {
-    background-color: var(--color-yellow-base);
-  }
-  .bg-yellow-bright {
-    background-color: var(--color-yellow-bright);
-  }
-  .bg-yellow-light {
-    background-color: var(--color-yellow-light);
-  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
+  }
+  .action {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .badge {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+  .body-md {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+  .body-sm {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+  .heading-lg {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+  .heading-md {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+  .heading-xl {
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 500;
   }
 }
 @layer base {

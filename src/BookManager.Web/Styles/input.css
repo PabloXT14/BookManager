@@ -31,4 +31,73 @@
   --color-green-light: #dcfce7;
 
   --color-red-bright: #d4183d;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+}
+
+
+/* Utility classes of typography */
+
+@utility heading-xl {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  /* 24px */
+  line-height: 2rem;
+  /* 32px */
+  font-weight: 500;
+}
+
+@utility heading-lg {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  /* 18px */
+  line-height: 1.75rem;
+  /* 28px */
+  font-weight: 600;
+}
+
+@utility heading-md {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  /* 16px */
+  line-height: 1.5rem;
+  /* 24px */
+  font-weight: 600;
+}
+
+@utility body-md {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  /* 16px */
+  line-height: 1.5rem;
+  /* 24px */
+  font-weight: 400;
+}
+
+@utility body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  /* 14px */
+  line-height: 1.25rem;
+  /* 20px */
+  font-weight: 400;
+}
+
+@utility action {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  /* 14px */
+  line-height: 1.25rem;
+  /* 20px */
+  font-weight: 500;
+}
+
+@utility badge {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  /* 12px */
+  line-height: 1rem;
+  /* 16px */
+  font-weight: 500;
 }
