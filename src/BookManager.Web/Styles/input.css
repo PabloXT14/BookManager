@@ -5,3 +5,30 @@
     @apply cursor-pointer;
   }
 }
+
+@theme {
+  /* Colors */
+  --color-gray-100: #f3f3f5;
+  --color-gray-200: #e1e1e6;
+  --color-gray-300: #d1d5dc;
+  --color-gray-400: #717182;
+  --color-gray-500: #0a0a0a;
+
+
+  --color-overlay: rgba(0, 0, 0, 0.5);
+
+  --color-navy-dark: #211f42;
+  --color-navy-low: #030213;
+
+  --color-yellow-base: #894b00;
+  --color-yellow-bright: #fdc700;
+  --color-yellow-light: #fef9c2;
+
+  --color-blue-base: #193cb8;
+  --color-blue-light: #dbeafe;
+
+  --color-green-base: #016630;
+  --color-green-light: #dcfce7;
+
+  --color-red-bright: #d4183d;
+}
