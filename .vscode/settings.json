@@ -1,0 +1,35 @@
+{
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "TwMerge\\.Merge\\(([^)]*)\\)",
+      "\"([^\"]*)\""
+    ],
+    [
+      "TwJoin\\(([^)]*)\\)",
+      "\"([^\"]*)\""
+    ],
+    [
+      "class:\\s*\"([^\"]*)\""
+    ],
+    [
+      "ClassName\\(([^)]*)\\)",
+      "\"([^\"]*)\""
+    ],
+    [
+      // private const string BaseClasses = "...";
+      "\\w*Classes\\s*=\\s*\"([^\"]*)\"",
+    ],
+    // private static readonly Dictionary<...> VariantClasses = new() { [X] = "...", ... };
+    [
+      "\\w*Classes\\s*=[^{]*\\{([^}]*)\\}",
+      "[\"']([^\"']*)[\"']"
+    ]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "razor": "html",
+    "csharp": "html"
+  }
+}

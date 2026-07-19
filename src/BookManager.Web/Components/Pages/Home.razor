@@ -1,50 +1,46 @@
 ﻿@page "/"
 
+@rendermode InteractiveServer
+
+@using BookManager.Web.Components.Shared.Button
+
 <PageTitle>Home</PageTitle>
 
-<div class="flex gap-3 p-2">
-  <Blazicon
-    Svg="Lucide.ChevronDown"
-    class="text-[32px]"
-  />
+<div class="flex flex-col gap-3 p-2 w-fit">
+  <Button @onclick="@(() => Console.WriteLine("Primary button clicked"))">
+    <Blazicon
+      Svg="Lucide.Plus"
+      class="text-[16px]"
+    />
 
-  <Blazicon
-    Svg="Lucide.Plus"
-    class="text-[32px]"
-  />
+    Label
+  </Button>
 
-  <Blazicon
-    Svg="Lucide.X"
-    class="text-[32px]"
-  />
+  <Button
+    Variant="Button.Variants.Secondary"
+    @onclick="@(() => Console.WriteLine("Secondary button clicked"))"
+    >
+      <Blazicon
+        Svg="Lucide.Pencil"
+        class="text-[16px]"
+      />
 
-  <Blazicon
-    Svg="Lucide.Star"
-    class="text-[32px] fill-current"
-  />
+      Label
+    </Button>
 
-  <Blazicon
-    Svg="Lucide.Star"
-    class="text-[32px]"
-  />
+    <Button
+      Variant="Button.Variants.Danger"
+      @onclick="@(() => Console.WriteLine("Danger button clicked"))"
+      >
+        <Blazicon
+          Svg="Lucide.Trash2"
+          class="text-[16px]"
+        />
 
-  <Blazicon
-    Svg="Lucide.Pencil"
-    class="text-[32px]"
-  />
+        Label
+      </Button>
+    </div>
 
-  <Blazicon
-    Svg="Lucide.Trash2"
-    class="text-[32px]"
-  />
+@code {
 
-  <Blazicon
-    Svg="Lucide.Search"
-    class="text-[32px]"
-  />
-
-  <Blazicon
-    Svg="Lucide.BookOpen"
-    class="text-[32px]"
-  />
-</div>
+}
