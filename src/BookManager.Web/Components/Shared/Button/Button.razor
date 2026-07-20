@@ -1,42 +1,42 @@
 @inject TailwindMerge.TwMerge TwMerge
 
 <button
-  class="@ComputedClass"
-  @attributes="AdditionalAttributes"
-  >
+    class="@ComputedClass"
+    @attributes="AdditionalAttributes"
+>
     @ChildContent
-  </button>
+</button>
 
-@code {
-  [Parameter]
-  public RenderFragment? ChildContent { get; set; }
+@code
+{
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
-  [Parameter]
-  public string? ClassName { get; set; }
+    [Parameter] public string? ClassName { get; set; }
 
-  [Parameter(CaptureUnmatchedValues = true)]
-  public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-  public enum Variants { Primary, Secondary, Danger }
-  // public enum Size { Small, Medium, Large } // This can be added later if needed for button sizing.
-  [Parameter]
-  public Variants Variant { get; set; } = Variants.Primary;
+    public enum Variants
+    {
+        Primary,
+        Secondary,
+        Danger
+    }
 
+    [Parameter] public Variants Variant { get; set; } = Variants.Primary;
 
+    private const string BaseClasses = "px-4 py-2 rounded-lg flex items-center justify-center gap-3 transition-colors duration-300 ease-in-out";
 
-  private const string BaseClasses = "px-4 py-2 rounded-lg flex items-center justify-center gap-3 transition-colors duration-300 ease-in-out";
+    private static readonly Dictionary<Variants, string> VariantClasses = new()
+    {
+        [Variants.Primary] = "action text-white bg-navy-low hover:bg-navy-dark",
+        [Variants.Secondary] = "action text-gray-500 bg-white border border-gray-200 hover:bg-gray-100",
+        [Variants.Danger] = "action text-red-bright bg-white border border-gray-200 hover:bg-gray-100"
+    };
 
-  private static readonly Dictionary<Variants, string> VariantClasses = new()
-  {
-    [Variants.Primary] = "action text-white bg-navy-low hover:bg-navy-dark",
-    [Variants.Secondary] = "action text-gray-500 bg-white border border-gray-200 hover:bg-gray-100",
-    [Variants.Danger] = "action text-red-bright bg-white border border-gray-200 hover:bg-gray-100"
-
-  };
-
-  private string ComputedClass => TwMerge.Merge(
-    BaseClasses,
-    VariantClasses[Variant],
-    ClassName
-  ) ?? "";
+    private string ComputedClass => TwMerge.Merge(
+        BaseClasses,
+        VariantClasses[Variant],
+        ClassName
+    ) ?? "";
 }

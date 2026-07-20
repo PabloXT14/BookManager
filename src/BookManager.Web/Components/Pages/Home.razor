@@ -17,29 +17,29 @@
   </Button>
 
   <Button
-    Variant="Button.Variants.Secondary"
     @onclick="@(() => Console.WriteLine("Secondary button clicked"))"
-    >
+    Variant="Button.Variants.Secondary"
+  >
       <Blazicon
         Svg="Lucide.Pencil"
         class="text-[16px]"
       />
 
       Label
-    </Button>
+  </Button>
 
-    <Button
-      Variant="Button.Variants.Danger"
-      @onclick="@(() => Console.WriteLine("Danger button clicked"))"
-      >
-        <Blazicon
-          Svg="Lucide.Trash2"
-          class="text-[16px]"
-        />
+  <Button
+    Variant="Button.Variants.Danger"
+    @onclick="@(() => Console.WriteLine("Danger button clicked"))"
+  >
+      <Blazicon
+        Svg="Lucide.Trash2"
+        class="text-[16px]"
+      />
 
-        Label
-      </Button>
-    </div>
+      Label
+  </Button>
+</div>
 
 @code {
 
