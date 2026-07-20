@@ -1,47 +1,19 @@
 ﻿@page "/"
+@using BookManager.Web.Components.Shared.Input
 
 @rendermode InteractiveServer
 
-@using BookManager.Web.Components.Shared.Button
 
 <PageTitle>Home</PageTitle>
 
 <div class="flex flex-col gap-3 p-2 w-fit">
-  <Button @onclick="@(() => IsLoading = !IsLoading)" IsLoading="@IsLoading">
-    <Blazicon
-      Svg="Lucide.Plus"
-      class="text-[16px]"
+    <Input
+      Id="search"
+      Label="Label *"
+      placeholder="Pesquisar..."
     />
-
-    Label
-  </Button>
-
-  <Button
-    @onclick="@(() => Console.WriteLine("Secondary button clicked"))"
-    Variant="Button.Variants.Secondary"
-    disabled
-  >
-      <Blazicon
-        Svg="Lucide.Pencil"
-        class="text-[16px]"
-      />
-
-      Label
-  </Button>
-
-  <Button
-    Variant="Button.Variants.Danger"
-    @onclick="@(() => Console.WriteLine("Danger button clicked"))"
-  >
-      <Blazicon
-        Svg="Lucide.Trash2"
-        class="text-[16px]"
-      />
-
-      Label
-  </Button>
 </div>
 
 @code {
-  bool IsLoading { get; set; } = false;
+ 
 }

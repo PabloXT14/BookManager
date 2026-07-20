@@ -35,5 +35,6 @@
   "[aspnetcorerazor]": {
     // "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": false
-  }
+  },
+  "editor.tabSize": 4
 }
