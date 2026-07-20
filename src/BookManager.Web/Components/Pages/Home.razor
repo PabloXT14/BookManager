@@ -7,7 +7,7 @@
 <PageTitle>Home</PageTitle>
 
 <div class="flex flex-col gap-3 p-2 w-fit">
-  <Button @onclick="@(() => Console.WriteLine("Primary button clicked"))">
+  <Button @onclick="@(() => IsLoading = !IsLoading)" IsLoading="@IsLoading">
     <Blazicon
       Svg="Lucide.Plus"
       class="text-[16px]"
@@ -19,6 +19,7 @@
   <Button
     @onclick="@(() => Console.WriteLine("Secondary button clicked"))"
     Variant="Button.Variants.Secondary"
+    disabled
   >
       <Blazicon
         Svg="Lucide.Pencil"
@@ -42,5 +43,5 @@
 </div>
 
 @code {
-
+  bool IsLoading { get; set; } = false;
 }
