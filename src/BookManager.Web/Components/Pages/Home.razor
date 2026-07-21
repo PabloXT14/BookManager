@@ -1,15 +1,23 @@
 ﻿@page "/"
+
 @using BookManager.Web.Components.Shared.Input
+@using BookManager.Web.Components.Shared.TextArea
 
 @rendermode InteractiveServer
 
 
 <PageTitle>Home</PageTitle>
 
-<div class="flex flex-col gap-3 p-2 w-fit">
+<div class="flex flex-col gap-3 p-2 w-full">
     <Input
       Id="search"
       Label="Label *"
+      placeholder="Pesquisar..."
+    />
+
+    <TextArea
+      Id="TextArea"
+      Label="TextArea *"
       placeholder="Pesquisar..."
     />
 </div>
