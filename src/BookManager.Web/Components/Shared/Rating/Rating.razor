@@ -1,0 +1,55 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<div class="flex flex-col gap-2">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <span class="text-gray-500 text-sm font-medium leading-none">@Title</span>
+    }
+
+    <div class="flex items-center gap-1">
+        @for (int i = 1; i <= 5; i++)
+        {
+            var isFilled = i <= Stars;
+            var star = i;
+
+            <button
+                type="button"
+                class="p-1"
+                @onclick="() => OnStarsChanged.InvokeAsync(star)"
+            >
+                <Blazicon
+                    Svg="Lucide.Star"
+                    class="@TwMerge.Merge(
+                        "text-[20px] transition-colors hover:fill-yellow-bright hover:stroke-yellow-bright",
+                        isFilled ? "fill-yellow-bright stroke-yellow-bright" : "text-gray-300"
+                    )"
+                />
+            </button>
+        }
+
+        @if (Stars > 0)
+        {
+            <button
+                type="button"
+                class="p-1 text-gray-400 action transition-colors hover:text-gray-600"
+                @onclick="@(() => OnClearAll.InvokeAsync())"
+            >
+                Limpar
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public int Stars { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnStarsChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnClearAll { get; set; }
+}

@@ -1,7 +1,6 @@
 ﻿@page "/"
 
-@using BookManager.Web.Components.Shared.Input
-@using BookManager.Web.Components.Shared.TextArea
+@using BookManager.Web.Components.Shared.Rating
 
 @rendermode InteractiveServer
 
@@ -9,19 +8,21 @@
 <PageTitle>Home</PageTitle>
 
 <div class="flex flex-col gap-3 p-2 w-full">
-    <Input
-      Id="search"
-      Label="Label *"
-      placeholder="Pesquisar..."
-    />
-
-    <TextArea
-      Id="TextArea"
-      Label="TextArea *"
-      placeholder="Pesquisar..."
+    <Rating
+      Title="Avaliação"
+      Stars="@RatingStars"
+      OnStarsChanged="@HandleStarsChanged"
+      OnClearAll="@(() => HandleStarsChanged(0))"
     />
 </div>
 
 @code {
- 
+  private int RatingStars = 0;
+
+  private void HandleStarsChanged(int stars)
+  {
+    Console.WriteLine($"Stars changed to: {stars}");
+
+    RatingStars = stars;
+  }
 }
