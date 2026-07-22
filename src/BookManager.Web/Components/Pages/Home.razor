@@ -1,33 +1,66 @@
 ﻿@page "/"
 
+@using BookManager.Web.Components.Shared.BookCard
 @using BookManager.Web.Components.Shared.Badge
-@using BookManager.Web.Components.Shared.Rating
 
 @rendermode InteractiveServer
 
 
 <PageTitle>Home</PageTitle>
 
-<div class="flex flex-col gap-3 p-2 w-full">
-    <Rating
-      Title="Avaliação"
-      Stars="@RatingStars"
-      OnStarsChanged="@HandleStarsChanged"
-      OnClearAll="@(() => HandleStarsChanged(0))"
-    />
-
-    <Badge Type="BadgeType.Default" />
-    <Badge Type="BadgeType.InProgress" />
-    <Badge Type="BadgeType.Done" />
+<div class="grid grid-cols-1 gap-6 p-6 w-fit mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
+    @foreach (var book in books)
+    {
+        <BookCard Book="@book" />
+    }
 </div>
 
 @code {
-  private int RatingStars = 0;
-
-  private void HandleStarsChanged(int stars)
-  {
-    Console.WriteLine($"Stars changed to: {stars}");
-
-    RatingStars = stars;
-  }
+  List<BookModel> books = [
+    new BookModel
+    {
+        Title = "The Great Gatsby",
+        Author = "F. Scott Fitzgerald",
+        CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg",
+        Rating = 5,
+        BadgeType = BadgeType.Default,
+        Comment = "A classic novel that explores themes of wealth, love, and the American Dream."
+    },
+    new BookModel
+    {
+        Title = "To Kill a Mockingbird",
+        Author = "Harper Lee",
+        CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81OthjkJBuL.jpg",
+        Rating = 4,
+        BadgeType = BadgeType.InProgress,
+        Comment = "A powerful story about racial injustice and moral growth in the Deep South."
+    },
+    new BookModel
+    {
+        Title = "1984",
+        Author = "George Orwell",
+        CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
+        Rating = 5,
+        BadgeType = BadgeType.Done,
+        Comment = "A dystopian novel that delves into themes of totalitarianism, surveillance, and individual freedom."
+    },
+    new BookModel
+    {
+        Title = "Pride and Prejudice",
+        Author = "Jane Austen",
+        CoverImageUrl = "",
+        Rating = 4,
+        BadgeType = BadgeType.Default,
+        Comment = "A romantic novel that explores themes of love, social class, and personal growth."
+    },
+    new BookModel
+    {
+        Title = "The Catcher in the Rye",
+        Author = "J.D. Salinger",
+        CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81OthjkJBuL.jpg",
+        Rating = 3,
+        BadgeType = BadgeType.Default,
+        Comment = "A coming-of-age novel that delves into themes of teenage angst, alienation, and the search for identity."
+    },
+  ];
 }

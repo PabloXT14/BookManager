@@ -188,11 +188,32 @@
   .static {
     position: static;
   }
+  .mx-auto {
+    margin-inline: auto;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
   .flex {
     display: flex;
   }
+  .grid {
+    display: grid;
+  }
   .table {
     display: table;
+  }
+  .h-65 {
+    height: calc(var(--spacing) * 65);
+  }
+  .h-102 {
+    height: calc(var(--spacing) * 102);
+  }
+  .h-\[534px\] {
+    height: 534px;
   }
   .min-h-20 {
     min-height: calc(var(--spacing) * 20);
@@ -202,6 +223,27 @@
   }
   .w-full {
     width: 100%;
+  }
+  .max-w-249 {
+    max-width: calc(var(--spacing) * 249);
+  }
+  .max-w-\[230px\] {
+    max-width: 230px;
+  }
+  .max-w-\[340px\] {
+    max-width: 340px;
+  }
+  .max-w-\[996px\] {
+    max-width: 996px;
+  }
+  .max-w-\[1024px\] {
+    max-width: 1024px;
+  }
+  .max-w-\[1440px\] {
+    max-width: 1440px;
+  }
+  .flex-1 {
+    flex: 1;
   }
   .border-collapse {
     border-collapse: collapse;
@@ -215,6 +257,12 @@
   .resize {
     resize: both;
   }
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -224,6 +272,15 @@
   .justify-center {
     justify-content: center;
   }
+  .justify-items-center {
+    justify-items: center;
+  }
+  .gap-0 {
+    gap: 0px;
+  }
+  .gap-0\.5 {
+    gap: calc(var(--spacing) * 0.5);
+  }
   .gap-1 {
     gap: var(--spacing);
   }
@@ -232,6 +289,12 @@
   }
   .gap-3 {
     gap: calc(var(--spacing) * 3);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
+  }
+  .gap-6 {
+    gap: calc(var(--spacing) * 6);
   }
   .rounded-lg {
     border-radius: var(--radius-lg);
@@ -248,6 +311,15 @@
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
+  }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
+  }
+  .bg-gray-300 {
+    background-color: var(--color-gray-300);
+  }
+  .bg-gray-400 {
+    background-color: var(--color-gray-400);
   }
   .bg-green-light {
     background-color: var(--color-green-light);
@@ -267,11 +339,20 @@
   .stroke-yellow-bright {
     stroke: var(--color-yellow-bright);
   }
+  .object-cover {
+    object-fit: cover;
+  }
   .p-1 {
     padding: var(--spacing);
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
+  }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
+  .p-6 {
+    padding: calc(var(--spacing) * 6);
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
@@ -288,6 +369,9 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
+  .pb-0 {
+    padding-bottom: 0px;
+  }
   .action {
     font-family: var(--font-sans);
     font-size: 0.875rem;
@@ -300,18 +384,39 @@
     line-height: 1rem;
     font-weight: 500;
   }
+  .body-md {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
   .body-sm {
     font-family: var(--font-sans);
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 400;
   }
+  .heading-md {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
   .text-sm {
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-\[16px\] {
+    font-size: 16px;
+  }
   .text-\[20px\] {
     font-size: 20px;
+  }
+  .text-\[64px\] {
+    font-size: 64px;
+  }
+  .text-\[128px\] {
+    font-size: 128px;
   }
   .leading-none {
     --tw-leading: 1;
@@ -405,6 +510,36 @@
   @media (hover: hover) {
     .disabled\:hover\:bg-inherit:disabled:hover {
       background-color: inherit;
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .sm\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:h-65 {
+      height: calc(var(--spacing) * 65);
+    }
+    .md\:max-w-\[230px\] {
+      max-width: 230px;
+    }
+    .md\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .md\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .md\:text-\[64px\] {
+      font-size: 64px;
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:grid-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 }

@@ -1,0 +1,92 @@
+@using BookManager.Web.Components.Shared.Badge
+@using BookManager.Web.Components.Shared.Button
+
+@inject TailwindMerge.TwMerge TwMerge
+
+<div class="max-w-[340px] w-full flex flex-col gap-6 rounded-lg bg-white border border-gray-200 md:max-w-[230px]">
+    @* CARD CONTENT *@
+    <div class="flex-1 flex flex-col gap-4 p-4 pb-0">
+        @if (!string.IsNullOrWhiteSpace(Book.CoverImageUrl))
+        {
+            <img
+                src="@Book.CoverImageUrl"
+                alt="@Book.Title"
+                class="w-full h-102 object-cover rounded-lg md:h-65"
+            />
+        } else {
+            <div class=" flex items-center justify-center w-full h-102 rounded-lg bg-gray-300 md:h-65">
+                <Blazicon
+                    Svg="Lucide.BookOpen"
+                    class="text-[128px] md:text-[64px] text-white"
+                />
+            </div>
+        }
+
+        @* INFO *@
+        <div class="flex flex-col gap-3">
+            @* TITLE *@
+            <div class="flex flex-col gap-0.5">
+                <h3 class="heading-md text-gray-500">@Book.Title</h3>
+                <p class="body-md text-gray-400">@Book.Author</p>
+            </div>
+
+            @* DESCRIPTION *@
+            <div class="flex flex-col gap-2">
+                <Badge Type="@Book.BadgeType" />
+
+                <div class="flex items-center gap-1">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        var isFilled = i <= Book.Rating;
+
+                        <Blazicon
+                            Svg="Lucide.Star"
+                            class="@TwMerge.Merge(
+                                "text-[16px] transition-colors",
+                                isFilled ? "fill-yellow-bright stroke-yellow-bright" : "text-gray-300"
+                            )"
+                        />
+                    }
+                </div>
+
+                <p class="body-sm text-gray-400 line-clamp-3">
+                    @if (!string.IsNullOrWhiteSpace(Book.Comment))
+                    {
+                        @Book.Comment
+                    }
+                    else
+                    {
+                        <span>Sem comentários</span>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+
+    @* CARD FOOTER *@
+    <div class="flex items-center justify-center gap-2 p-2">
+        <Button Variant="Button.Variants.Secondary">
+            <Blazicon
+                Svg="Lucide.Pencil"
+                class="text-[16px]"
+            />
+
+            Editar
+        </Button>
+
+        <Button Variant="Button.Variants.Danger">
+            <Blazicon
+                Svg="Lucide.Trash2"
+                class="text-[16px]"
+            />
+
+            Excluir
+        </Button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public BookModel Book { get; set; } = new();
+}
