@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using BookManager.Web.Components.Shared.Badge
 @using BookManager.Web.Components.Shared.Rating
 
 @rendermode InteractiveServer
@@ -14,6 +15,10 @@
       OnStarsChanged="@HandleStarsChanged"
       OnClearAll="@(() => HandleStarsChanged(0))"
     />
+
+    <Badge Type="BadgeType.Default" />
+    <Badge Type="BadgeType.InProgress" />
+    <Badge Type="BadgeType.Done" />
 </div>
 
 @code {

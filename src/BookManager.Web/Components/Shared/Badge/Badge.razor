@@ -1,0 +1,36 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<div class="@ComputedClass">
+    @BadgeTexts[Type]
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public BadgeType Type { get; set; } = BadgeType.Default;
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    private Dictionary<BadgeType, string> BadgeTexts = new()
+    {
+        [BadgeType.Default] =  "Quero ler",
+        [BadgeType.InProgress] = "Lendo",
+        [BadgeType.Done] = "Lido"
+    };
+
+    private string BaseClasses = "px-2 py-1 rounded-lg badge w-fit";
+
+    private Dictionary<BadgeType, string> BadgeClasses = new()
+    {
+        [BadgeType.Default] =  "bg-blue-light text-blue-base" ,
+        [BadgeType.InProgress] = "bg-yellow-light text-yellow-base",
+        [BadgeType.Done] = "bg-green-light text-green-base"
+    };
+
+    private string ComputedClass => TwMerge.Merge(
+        BaseClasses,
+        BadgeClasses[Type],
+        ClassName
+    ) ?? "";
+}

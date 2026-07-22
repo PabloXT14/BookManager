@@ -6,7 +6,6 @@
     --font-sans: 'Inter', sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-gray-100: #f3f3f5;
     --color-gray-200: #e1e1e6;
     --color-gray-300: #d1d5dc;
@@ -27,7 +26,13 @@
     --default-mono-font-family: var(--font-mono);
     --color-navy-dark: #211f42;
     --color-navy-low: #030213;
+    --color-yellow-base: #894b00;
     --color-yellow-bright: #fdc700;
+    --color-yellow-light: #fef9c2;
+    --color-blue-base: #193cb8;
+    --color-blue-light: #dbeafe;
+    --color-green-base: #016630;
+    --color-green-light: #dcfce7;
     --color-red-bright: #d4183d;
   }
 }
@@ -192,6 +197,9 @@
   .min-h-20 {
     min-height: calc(var(--spacing) * 20);
   }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
   }
@@ -235,8 +243,14 @@
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
+  .bg-blue-light {
+    background-color: var(--color-blue-light);
+  }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
+  }
+  .bg-green-light {
+    background-color: var(--color-green-light);
   }
   .bg-navy-low {
     background-color: var(--color-navy-low);
@@ -244,8 +258,8 @@
   .bg-white {
     background-color: var(--color-white);
   }
-  .fill-current {
-    fill: currentcolor;
+  .bg-yellow-light {
+    background-color: var(--color-yellow-light);
   }
   .fill-yellow-bright {
     fill: var(--color-yellow-bright);
@@ -259,11 +273,17 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
+  }
+  .py-1 {
+    padding-block: var(--spacing);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
@@ -272,6 +292,12 @@
     font-family: var(--font-sans);
     font-size: 0.875rem;
     line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .badge {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1rem;
     font-weight: 500;
   }
   .body-sm {
@@ -295,6 +321,9 @@
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
   }
+  .text-blue-base {
+    color: var(--color-blue-base);
+  }
   .text-gray-300 {
     color: var(--color-gray-300);
   }
@@ -304,14 +333,17 @@
   .text-gray-500 {
     color: var(--color-gray-500);
   }
+  .text-green-base {
+    color: var(--color-green-base);
+  }
   .text-red-bright {
     color: var(--color-red-bright);
   }
   .text-white {
     color: var(--color-white);
   }
-  .text-yellow-bright {
-    color: var(--color-yellow-bright);
+  .text-yellow-base {
+    color: var(--color-yellow-base);
   }
   .underline {
     text-decoration-line: underline;
