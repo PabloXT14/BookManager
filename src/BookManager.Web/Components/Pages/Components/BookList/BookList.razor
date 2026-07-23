@@ -1,0 +1,28 @@
+@using BookManager.Web.Components.Shared.Input
+@inject TailwindMerge.TwMerge TwMerge
+
+<div class="@TwMerge.Merge(
+    "w-full flex flex-col",
+    IsEmpty ? "gap-18" : "gap-6")
+">
+    @* FILTER *@
+    <div class="flex gap-4 w-full">
+        <Input
+            Type="text"
+            Id="search"
+            placeholder="Buscar por título ou autor"
+        >
+            <LeftIcon>
+                <Blazicon Svg="Lucide.Search" class="text-[16px] text-gray-400" />
+            </LeftIcon>
+        </Input>
+    </div>
+
+    <p class="body-md text-gray-400 text-center">
+        Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!
+    </p>
+</div>
+
+@code {
+    bool IsEmpty = true;
+}

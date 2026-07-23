@@ -1,18 +1,18 @@
 ﻿@page "/"
 
+@rendermode InteractiveServer
+
+@using BookManager.Web.Components.Pages.Components.BookList
+@using BookManager.Web.Components.Pages.Components.Header
 @using BookManager.Web.Components.Shared.BookCard
 @using BookManager.Web.Components.Shared.Badge
 
-@rendermode InteractiveServer
+<PageTitle>Minha Biblioteca</PageTitle>
 
+<div class="max-w-281 w-full mx-auto px-4 py-8 flex flex-col gap-8 md:px-16 md:py-8">
+    <Header />
 
-<PageTitle>Home</PageTitle>
-
-<div class="grid grid-cols-1 gap-6 p-6 w-fit mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
-    @foreach (var book in books)
-    {
-        <BookCard Book="@book" />
-    }
+    <BookList />
 </div>
 
 @code {
