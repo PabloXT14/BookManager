@@ -1,0 +1,24 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<div
+    class="@ComputedClasses"
+    @onclick="@Context.CloseAsync"
+>
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter]
+    public DialogContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    public string ComputedClasses => TwMerge.Merge(
+        "absolute inset-0 z-40 bg-overlay",
+        ClassName
+    ) ?? "";
+}

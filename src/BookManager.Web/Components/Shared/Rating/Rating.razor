@@ -3,10 +3,12 @@
 <div class="flex flex-col gap-2">
     @if (!string.IsNullOrEmpty(Title))
     {
-        <span class="text-gray-500 text-sm font-medium leading-none">@Title</span>
+        <label class="text-gray-500 text-sm font-medium leading-none" for="@Id">
+            @Title
+        </label>
     }
 
-    <div class="flex items-center gap-1">
+    <div class="flex items-center gap-1" id="@Id">
         @for (int i = 1; i <= 5; i++)
         {
             var isFilled = i <= Stars;
@@ -46,6 +48,9 @@
 
     [Parameter]
     public int Stars { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
 
     [Parameter]
     public EventCallback<int> OnStarsChanged { get; set; }

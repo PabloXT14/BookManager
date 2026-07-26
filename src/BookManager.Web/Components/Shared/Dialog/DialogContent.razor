@@ -1,0 +1,57 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+@if(Context.IsOpen) {
+    <div class="fixed inset-0 z-40" >
+        <DialogOverlay />
+
+        <div
+            @ref="_dialogElement"
+            tabindex="-1"
+            @onkeydown="@HandleKeyDown"
+            class="@ComputedClasses"
+        >
+            @ChildContent
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public DialogContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    public string ComputedClasses => TwMerge.Merge(
+        "absolute z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mx-2 p-6 max-w-107 w-full flex flex-col gap-3 bg-white rounded-lg shadow-lg outline-none",
+        ClassName
+    ) ?? "";
+
+    private ElementReference _dialogElement;
+    private bool _wasOpen;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Context.IsOpen && !_wasOpen)
+        {
+            _wasOpen = true;
+            await _dialogElement.FocusAsync();
+        }
+
+        if (!Context.IsOpen && _wasOpen)
+        {
+            _wasOpen = false;
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await Context.CloseAsync();
+        }
+    }
+}

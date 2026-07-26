@@ -23,6 +23,7 @@
             id="@Id"
             type="@Type"
             disabled="@IsDisabled"
+            placeholder="@Placeholder"
             class="flex-1 text-gray-500 body-sm outline-none placeholder:text-gray-400 disabled:cursor-not-allowed"
             @attributes="AdditionalAttributes"
         />
@@ -49,6 +50,9 @@
 
     [Parameter]
     public string? Type { get; set; } = "text";
+
+    [Parameter]
+    public string? Placeholder { get; set; }
 
     [Parameter]
     public bool IsDisabled { get; set; }

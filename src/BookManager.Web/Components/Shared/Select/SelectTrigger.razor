@@ -4,6 +4,7 @@
     @onclick="Toggle"
     class="@ComputedClasses"
     disabled="@IsDisabled"
+    id="@Id"
 >
     @ChildContent
 
@@ -25,6 +26,9 @@
 
     [Parameter]
     public string? ClassName { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
 
     [CascadingParameter]
     public SelectContext Context { get; set; } = default!;

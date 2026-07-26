@@ -1,0 +1,18 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<h2 class="@ComputedClasses">
+    @ChildContent
+</h2>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    public string ComputedClasses => TwMerge.Merge(
+        "heading-lg text-gray-500",
+        ClassName
+    ) ?? "";
+}

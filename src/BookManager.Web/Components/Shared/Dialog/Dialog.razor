@@ -1,0 +1,47 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+@implements IDisposable
+
+<CascadingValue Value="_context">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    private readonly DialogContext _context = new DialogContext();
+
+    protected override void OnInitialized()
+    {
+        _context.StateChanged += Refresh;
+
+        _context.OnOpenChanged = async (isOpen) =>
+        {
+            IsOpen = isOpen;
+
+            await OpenChanged.InvokeAsync(isOpen);
+        };
+    }
+
+    protected override void OnParametersSet()
+    {
+        _context.SetOpen(IsOpen);
+    }
+
+    public void Dispose()
+    {
+        _context.StateChanged -= Refresh;
+    }
+
+    private void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}
