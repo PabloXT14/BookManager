@@ -1,0 +1,57 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+@implements IDisposable
+
+<CascadingValue Value="_context">
+    <div
+        class="relative"
+    >
+        @* OVERLAY *@
+        <div
+            class="@TwMerge.Merge(
+                "fixed inset-0 z-0",
+                _context.IsOpen ? "" : "hidden"
+            )"
+            @onclick="_context.Close"
+        ></div>
+
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Item? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<Item?> ValueChanged { get; set; }
+
+    private readonly SelectContext _context = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _context.StateChanged += Refresh;
+
+        _context.OnValueChanged = async (value) =>
+        {
+            Value = value;
+            await ValueChanged.InvokeAsync(value);
+        };
+
+        await _context.SetValueAsync(Value);
+    }
+
+    public void Dispose()
+    {
+        _context.StateChanged -= Refresh;
+    }
+
+    private void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}

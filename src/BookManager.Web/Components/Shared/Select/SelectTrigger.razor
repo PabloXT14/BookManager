@@ -1,0 +1,44 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<button
+    @onclick="Toggle"
+    class="@ComputedClasses"
+    disabled="@IsDisabled"
+>
+    @ChildContent
+
+    @if (ShowArrow)
+    {
+        <Blazicon Svg="Lucide.ChevronDown" class="text-[16px] text-gray-400" />
+    }
+</button>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool ShowArrow { get; set; } = true;
+
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    [CascadingParameter]
+    public SelectContext Context { get; set; } = default!;
+
+    
+    public string ComputedClasses => TwMerge.Merge(
+        "flex items-center gap-3 w-full px-3 py-2 bg-gray-100 rounded-lg focus-within:ring-2 focus-within:ring-gray-200 transition-colors",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        ClassName
+    ) ?? "";
+
+
+    private void Toggle()
+    {
+        Context.Toggle();
+    }
+}

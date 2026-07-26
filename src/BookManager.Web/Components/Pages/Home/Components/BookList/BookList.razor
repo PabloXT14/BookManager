@@ -1,0 +1,74 @@
+@using BookManager.Web.Components.Shared.Input
+@using BookManager.Web.Components.Shared.Select
+
+@inject TailwindMerge.TwMerge TwMerge
+
+<div class="@TwMerge.Merge(
+    "w-full flex flex-col",
+    IsEmpty ? "gap-18" : "gap-6")
+">
+    @* FILTER *@
+    <div class="flex gap-4 w-full">
+        <Input
+            Type="text"
+            Id="search"
+            placeholder="Buscar por título ou autor"
+        >
+            <LeftIcon>
+                <Blazicon Svg="Lucide.Search" class="text-[16px] text-gray-400" />
+            </LeftIcon>
+        </Input>
+
+        <Select Value="@SelectedFilter" ValueChanged="@OnFilterByChanged">
+            <SelectTrigger ClassName="w-48">
+                <SelectedValue Placeholder="Filtrar por" />
+            </SelectTrigger>
+
+            <SelectContent>
+                @foreach (var option in FilterOptions)
+                {
+                    <SelectItem Value="@option" ClassName="w-full flex items-center gap-2">
+                        @option.Label
+
+                        @if (option.Value == SelectedFilter?.Value)
+                        {
+                            <div class="ml-auto">
+                                <Blazicon Svg="Lucide.Check" class="text-[16px] text-green-base" />
+                            </div>
+                        }
+                    </SelectItem>
+                }
+            </SelectContent>
+        </Select>
+    </div>
+
+    <p class="body-md text-gray-400 text-center">
+        Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!
+    </p>
+</div>
+
+@code {
+    bool IsEmpty = true;
+
+    private List<Item> FilterOptions { get; set; } = new List<Item>
+    {
+        new Item { Value = "", Label = "Todos os status" },
+        new Item { Value = "0", Label = "Quero ler" },
+        new Item { Value = "1", Label = "Lendo" },
+        new Item { Value = "2", Label = "Lido" }
+    };
+
+    private Item? SelectedFilter { get; set; }
+
+    
+    protected override void OnInitialized()
+    {
+        SelectedFilter = FilterOptions.FirstOrDefault();
+    }
+
+
+    private async Task OnFilterByChanged(Item value)
+    {
+        SelectedFilter = value;
+    }
+}

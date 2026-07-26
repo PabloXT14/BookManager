@@ -1,0 +1,29 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<span class="@ComputedClasses">
+    @if (Context.SelectedValue is not null)
+    {
+        @Context.SelectedValue.Label
+    }
+    else
+    {
+        @Placeholder
+    }
+</span>
+
+@code {
+    [CascadingParameter]
+    public SelectContext Context { get; set; } = default!;
+
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+    
+
+    private string ComputedClasses => TwMerge.Merge(
+        "text-left w-full text-gray-500 body-sm",
+        ClassName
+    ) ?? "";
+}

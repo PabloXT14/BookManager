@@ -1,0 +1,32 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+<div
+    class="@ComputedClasses"
+    @onclick="Select"
+>
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter]
+    public SelectContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Item? Value { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    private string ComputedClasses => TwMerge.Merge(
+        "px-3 py-2 body-sm text-gray-700 rounded-md cursor-pointer hover:bg-gray-100",
+        ClassName
+    ) ?? "";
+
+    public async Task Select()
+    {
+        await Context.SetValueAsync(Value);
+    }
+}

@@ -1,0 +1,23 @@
+@inject TailwindMerge.TwMerge TwMerge
+
+@if (Context.IsOpen) {
+    <div class="@ComputedClasses">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public SelectContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? ClassName { get; set; }
+
+    private string ComputedClasses => TwMerge.Merge(
+        "absolute z-10 w-full mt-2 p-2 bg-white border border-gray-200 rounded-lg shadow-lg",
+        ClassName
+    ) ?? "";
+}
