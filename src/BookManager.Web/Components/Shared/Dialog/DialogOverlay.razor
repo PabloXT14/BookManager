@@ -18,7 +18,7 @@
     public string? ClassName { get; set; }
 
     public string ComputedClasses => TwMerge.Merge(
-        "absolute inset-0 z-40 bg-overlay",
+        "fixed inset-0 z-40 bg-overlay",
         ClassName
     ) ?? "";
 }

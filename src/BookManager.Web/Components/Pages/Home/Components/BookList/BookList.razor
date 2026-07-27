@@ -8,7 +8,7 @@
     IsEmpty ? "gap-18" : "gap-6")
 ">
     @* FILTER *@
-    <div class="flex gap-4 w-full">
+    <div class="flex flex-col gap-2 w-full md:flex-row md:gap-4">
         <Input
             Type="text"
             Id="search"
@@ -20,7 +20,7 @@
         </Input>
 
         <Select Value="@SelectedFilter" ValueChanged="@OnFilterByChanged">
-            <SelectTrigger ClassName="w-48">
+            <SelectTrigger ClassName="w-full md:w-48">
                 <SelectedValue Placeholder="Filtrar por" />
             </SelectTrigger>
 

@@ -7,9 +7,6 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
-    --color-green-500: oklch(72.3% 0.219 149.579);
-    --color-indigo-500: oklch(58.5% 0.233 277.117);
-    --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: #f3f3f5;
     --color-gray-200: #e1e1e6;
     --color-gray-300: #d1d5dc;
@@ -273,8 +270,11 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .w-48 {
-    width: calc(var(--spacing) * 48);
+  .w-\[calc\(100\%-1rem\)\] {
+    width: calc(100% - 1rem);
+  }
+  .w-\[calc\(100\%-2rem\)\] {
+    width: calc(100% - 2rem);
   }
   .w-fit {
     width: fit-content;
@@ -409,9 +409,6 @@
   }
   .bg-overlay {
     background-color: var(--color-overlay);
-  }
-  .bg-red-500 {
-    background-color: var(--color-red-500);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -636,12 +633,35 @@
       background-color: inherit;
     }
   }
+  @media (width >= 40rem) {
+    .sm\:w-48 {
+      width: calc(var(--spacing) * 48);
+    }
+    .sm\:flex-row {
+      flex-direction: row;
+    }
+    .sm\:gap-4 {
+      gap: calc(var(--spacing) * 4);
+    }
+  }
   @media (width >= 48rem) {
     .md\:h-65 {
       height: calc(var(--spacing) * 65);
     }
+    .md\:w-48 {
+      width: calc(var(--spacing) * 48);
+    }
     .md\:max-w-\[230px\] {
       max-width: 230px;
+    }
+    .md\:flex-row {
+      flex-direction: row;
+    }
+    .md\:gap-4 {
+      gap: calc(var(--spacing) * 4);
+    }
+    .md\:bg-red-500 {
+      background-color: var(--color-red-500);
     }
     .md\:px-16 {
       padding-inline: calc(var(--spacing) * 16);
