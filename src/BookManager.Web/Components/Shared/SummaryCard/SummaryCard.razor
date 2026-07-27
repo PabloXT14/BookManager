@@ -1,0 +1,12 @@
+<div class="w-full p-4 bg-white rounded-lg border border-gray-200">
+    <p class="heading-xl text-gray-500">@Count</p>
+    <p class="body-md text-gray-400">@Title</p>
+</div>
+
+@code {
+    [Parameter]
+    public int Count { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+}
