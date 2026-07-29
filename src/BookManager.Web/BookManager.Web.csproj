@@ -9,7 +9,16 @@
 
   <ItemGroup>
     <PackageReference Include="Blazicons.Lucide" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="TailwindMerge.NET" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../BookManager.Application/BookManager.Application.csproj" />
+    <ProjectReference Include="../BookManager.Infrastructure/BookManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

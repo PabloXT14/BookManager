@@ -1,3 +1,4 @@
+using BookManager.Infrastructure;
 using BookManager.Web.Components;
 using TailwindMerge.Extensions;
 
@@ -8,6 +9,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddTailwindMerge();
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
