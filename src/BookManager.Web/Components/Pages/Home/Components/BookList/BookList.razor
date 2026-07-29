@@ -1,3 +1,4 @@
+@using BookManager.Web.Components.Shared.BookCard
 @using BookManager.Web.Components.Shared.Input
 @using BookManager.Web.Components.Shared.Select
 
@@ -42,13 +43,82 @@
         </Select>
     </div>
 
-    <p class="body-md text-gray-400 text-center">
-        Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!
-    </p>
+    @if (IsEmpty)
+    {
+        <p class="body-md text-gray-400 text-center">
+            Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!
+        </p>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 gap-6 w-fit mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
+            @foreach (var book in Books)
+            {
+                <BookCard Book="@book" />
+            }
+        </div>
+    }
 </div>
 
 @code {
-    bool IsEmpty = true;
+    private List<BookModel> Books { get; set; } = [
+        new BookModel
+        {
+            Title = "O Senhor dos Anéis",
+            Author = "J.R.R. Tolkien",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/91b0C2YNSrL.jpg",
+            BadgeType = Shared.Badge.BadgeType.Done,
+            Rating = 5,
+            Comment = "Uma obra-prima da literatura fantástica."
+        },
+        new BookModel
+        {
+            Title = "1984",
+            Author = "George Orwell",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
+            BadgeType = Shared.Badge.BadgeType.InProgress,
+            Rating = 4,
+            Comment = "Um livro perturbador e visionário sobre o totalitarismo."
+        },
+        new BookModel
+        {
+            Title = "O Pequeno Príncipe",
+            Author = "Antoine de Saint-Exupéry",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg",
+            BadgeType = Shared.Badge.BadgeType.Default,
+            Rating = 0,
+            Comment = "Uma história encantadora que nos lembra da importância da imaginação e da amizade."
+        },
+        new BookModel
+        {
+            Title = "A Revolução dos Bichos",
+            Author = "George Orwell",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
+            BadgeType = Shared.Badge.BadgeType.Done,
+            Rating = 5,
+            Comment = "Uma fábula política que critica o totalitarismo e a corrupção do poder."
+        },
+        new BookModel
+        {
+            Title = "O Hobbit",
+            Author = "J.R.R. Tolkien",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/91b0C2YNSrL.jpg",
+            BadgeType = Shared.Badge.BadgeType.InProgress,
+            Rating = 3,
+            Comment = "Uma aventura épica que antecede O Senhor dos Anéis."
+        },
+        new BookModel
+        {
+            Title = "Fahrenheit 451",
+            Author = "Ray Bradbury",
+            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
+            BadgeType = Shared.Badge.BadgeType.Default,
+            Rating = 0,
+            Comment = "Um romance distópico que explora a censura e a repressão da liberdade de expressão."
+        }
+    ];
+
+    bool IsEmpty = false;
 
     private List<Item> FilterOptions { get; set; } = new List<Item>
     {
@@ -64,6 +134,8 @@
     protected override void OnInitialized()
     {
         SelectedFilter = FilterOptions.FirstOrDefault();
+
+        IsEmpty = !Books.Any();
     }
 
 
