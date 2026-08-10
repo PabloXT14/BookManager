@@ -1,3 +1,4 @@
+@using BookManager.Domain.Entities
 @using BookManager.Web.Components.Shared.Badge
 @using BookManager.Web.Components.Shared.Button
 
@@ -32,7 +33,7 @@
 
             @* DESCRIPTION *@
             <div class="flex flex-col gap-2">
-                <Badge Type="@Book.BadgeType" />
+                <Badge Type="@((BadgeType)Book.ReadStatus)" />
 
                 <div class="flex items-center gap-1">
                     @for (int i = 1; i <= 5; i++)
@@ -50,9 +51,9 @@
                 </div>
 
                 <p class="body-sm text-gray-400 line-clamp-3">
-                    @if (!string.IsNullOrWhiteSpace(Book.Comment))
+                    @if (!string.IsNullOrWhiteSpace(Book.Description))
                     {
-                        @Book.Comment
+                        @Book.Description
                     }
                     else
                     {
@@ -88,5 +89,5 @@
 @code {
     [Parameter]
     [EditorRequired]
-    public BookModel Book { get; set; } = new();
+    public Book Book { get; set; } = new();
 }

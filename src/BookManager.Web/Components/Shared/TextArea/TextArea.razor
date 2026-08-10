@@ -1,3 +1,5 @@
+@inherits InputBase<string?>
+
 @inject TailwindMerge.TwMerge TwMerge
 
 <div class="@ComputedClasses">
@@ -12,6 +14,7 @@
         id="@Id"
         class="min-h-20 bg-gray-100 text-gray-500 body-sm px-3 py-2 rounded-lg outline-none focus:ring-2 focus:ring-gray-200 w-full transition-colors placeholder:text-gray-400 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
         placeholder="@Placeholder"
+        @oninput="EventCallback.Factory.CreateBinder<string?>(this, v => CurrentValueAsString = v, CurrentValueAsString)"
         @attributes="AdditionalAttributes"
     />
 </div>
@@ -29,12 +32,16 @@
 
     [Parameter]
     public string? Placeholder { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
     
     private string ComputedClasses => TwMerge.Merge(
         "flex flex-col gap-2",
         ClassName
     ) ?? "";
+
+    protected override bool TryParseValueFromString(string? value, out string? result, out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
 }

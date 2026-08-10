@@ -1,4 +1,9 @@
+@typeparam TValue
+@inherits InputBase<TValue>
+
 @inject TailwindMerge.TwMerge TwMerge
+
+
 
 <div class="@ComputedClasses">
     @if (!string.IsNullOrEmpty(Label))
@@ -25,6 +30,7 @@
             disabled="@IsDisabled"
             placeholder="@Placeholder"
             class="flex-1 text-gray-500 body-sm outline-none placeholder:text-gray-400 disabled:cursor-not-allowed"
+            @oninput="EventCallback.Factory.CreateBinder<string?>(this, v => CurrentValueAsString = v, CurrentValueAsString)"
             @attributes="AdditionalAttributes"
         />
 
@@ -62,12 +68,23 @@
 
     [Parameter]
     public RenderFragment? RightIcon { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
     
     private string ComputedClasses => TwMerge.Merge(
         "flex flex-col gap-2 w-full",
         ClassName
     ) ?? "";
+
+    protected override bool TryParseValueFromString(string? value, out TValue result, out string? validationErrorMessage)
+    {
+        if (BindConverter.TryConvertTo<TValue>(value, System.Globalization.CultureInfo.CurrentCulture, out var parsedValue))
+        {
+            result = parsedValue!;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = default!;
+        validationErrorMessage = $"O campo {Label ?? Id} não é um valor válido.";
+        return false;
+    }
 }

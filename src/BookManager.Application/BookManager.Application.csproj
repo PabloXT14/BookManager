@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../BookManager.Communication/BookManager.Communication.csproj" />
+    <ProjectReference Include="../BookManager.Domain/BookManager.Domain.csproj" />
+    <ProjectReference Include="../BookManager.Exception/BookManager.Exception.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="FluentValidation" Version="8.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+  </ItemGroup>
+
 </Project>

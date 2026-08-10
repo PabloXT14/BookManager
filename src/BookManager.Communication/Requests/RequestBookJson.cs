@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using BookManager.Domain.Enums;
+using BookManager.Communication.Enums;
 
-namespace BookManager.Domain.Entities;
+namespace BookManager.Communication.Requests;
 
-public class Book
+public class RequestBookJson
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
@@ -16,6 +14,4 @@ public class Book
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public Guid UserId { get; set; }
-    [ForeignKey("UserId")]
-    public User User { get; set; } = default!;
 }

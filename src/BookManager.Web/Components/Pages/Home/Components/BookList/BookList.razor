@@ -1,8 +1,13 @@
+@using BookManager.Domain.Enums
 @using BookManager.Web.Components.Shared.BookCard
 @using BookManager.Web.Components.Shared.Input
 @using BookManager.Web.Components.Shared.Select
+@using BookManager.Web.States
 
 @inject TailwindMerge.TwMerge TwMerge
+
+@inject BookState BookState
+@implements IDisposable
 
 <div class="@TwMerge.Merge(
     "w-full flex flex-col",
@@ -14,6 +19,8 @@
             Type="text"
             Id="search"
             Placeholder="Buscar por título ou autor"
+            @bind-Value="@SearchQuery"
+            @bind-Value:after="@OnSearchQueryChanged"
         >
             <LeftIcon>
                 <Blazicon Svg="Lucide.Search" class="text-[16px] text-gray-400" />
@@ -52,7 +59,7 @@
     else
     {
         <div class="grid grid-cols-1 gap-6 w-fit mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
-            @foreach (var book in Books)
+            @foreach (var book in BookState.books)
             {
                 <BookCard Book="@book" />
             }
@@ -61,64 +68,10 @@
 </div>
 
 @code {
-    private List<BookModel> Books { get; set; } = [
-        new BookModel
-        {
-            Title = "O Senhor dos Anéis",
-            Author = "J.R.R. Tolkien",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/91b0C2YNSrL.jpg",
-            BadgeType = Shared.Badge.BadgeType.Done,
-            Rating = 5,
-            Comment = "Uma obra-prima da literatura fantástica."
-        },
-        new BookModel
-        {
-            Title = "1984",
-            Author = "George Orwell",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
-            BadgeType = Shared.Badge.BadgeType.InProgress,
-            Rating = 4,
-            Comment = "Um livro perturbador e visionário sobre o totalitarismo."
-        },
-        new BookModel
-        {
-            Title = "O Pequeno Príncipe",
-            Author = "Antoine de Saint-Exupéry",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg",
-            BadgeType = Shared.Badge.BadgeType.Default,
-            Rating = 0,
-            Comment = "Uma história encantadora que nos lembra da importância da imaginação e da amizade."
-        },
-        new BookModel
-        {
-            Title = "A Revolução dos Bichos",
-            Author = "George Orwell",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
-            BadgeType = Shared.Badge.BadgeType.Done,
-            Rating = 5,
-            Comment = "Uma fábula política que critica o totalitarismo e a corrupção do poder."
-        },
-        new BookModel
-        {
-            Title = "O Hobbit",
-            Author = "J.R.R. Tolkien",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/91b0C2YNSrL.jpg",
-            BadgeType = Shared.Badge.BadgeType.InProgress,
-            Rating = 3,
-            Comment = "Uma aventura épica que antecede O Senhor dos Anéis."
-        },
-        new BookModel
-        {
-            Title = "Fahrenheit 451",
-            Author = "Ray Bradbury",
-            CoverImageUrl = "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg",
-            BadgeType = Shared.Badge.BadgeType.Default,
-            Rating = 0,
-            Comment = "Um romance distópico que explora a censura e a repressão da liberdade de expressão."
-        }
-    ];
+    private string SearchQuery { get; set; } = string.Empty;
+    private CancellationTokenSource? _debounceCts;
 
-    bool IsEmpty = false;
+    private bool IsEmpty => !BookState.books.Any();
 
     private List<Item> FilterOptions { get; set; } = new List<Item>
     {
@@ -130,17 +83,57 @@
 
     private Item? SelectedFilter { get; set; }
 
-    
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        BookState.OnChange += StateHasChanged;
+
         SelectedFilter = FilterOptions.FirstOrDefault();
 
-        IsEmpty = !Books.Any();
+        await FilterBooksAsync(SearchQuery, null);
+    }
+
+    public void Dispose()
+    {
+        BookState.OnChange -= StateHasChanged;
+        _debounceCts?.Cancel();
+        _debounceCts?.Dispose();
+    }
+
+    private async Task FilterBooksAsync(string searchQuery, ReadStatus? readStatus)
+    {
+        BookState.FilterBooks(searchQuery, readStatus);
     }
 
 
-    private async Task OnFilterByChanged(Item value)
+
+    private async Task OnFilterByChanged(Item newItem)
     {
-        SelectedFilter = value;
+        SelectedFilter = newItem;
+
+        ReadStatus? selectedReadStatus = string.IsNullOrWhiteSpace(SelectedFilter?.Value) 
+            ? null 
+            : int.TryParse(SelectedFilter.Value, out var statusValue) ? (ReadStatus)statusValue : null;
+
+        await FilterBooksAsync(SearchQuery, selectedReadStatus);
+    }
+
+    private async Task OnSearchQueryChanged()
+    {
+        // Cancel the previous debounce task if it exists
+        _debounceCts?.Cancel();
+        _debounceCts?.Dispose();
+        _debounceCts = new CancellationTokenSource();
+
+        try
+        {
+            // Wait for 500 milliseconds before executing the search
+            await Task.Delay(500, _debounceCts.Token);
+
+            await FilterBooksAsync(SearchQuery, null);
+        }
+        catch (TaskCanceledException)
+        {
+            // Uma nova tecla foi pressionada antes dos 500ms.
+        }
     }
 }
