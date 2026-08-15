@@ -1,4 +1,4 @@
-@using BookManager.Domain.Entities
+@using Blazilla
 @using BookManager.Domain.Enums
 @using BookManager.Web.Components.Shared.Button
 @using BookManager.Web.Components.Shared.Dialog
@@ -29,13 +29,23 @@
         </DialogHeader>
 
         @* FORM *@
-        <div class="w-full flex flex-col gap-4">
+        <EditForm
+            EditContext="@_editContext"
+            OnValidSubmit="@HandleSubmit"
+            class="w-full flex flex-col gap-4"
+        >
+            <FluentValidator />
+
             <Input
                 Id="book-title"
                 Type="text"
                 Label="Título *"
                 Placeholder="Digite o título do livro"
-                @bind-Value="@Book.Title"
+                @bind-Value="@_formModel.Title"
+                ErrorMessage="@(
+                    _editContext.GetValidationMessages(() => _formModel.Title).FirstOrDefault()
+                    ?? null
+                )"
             />
 
             <Input
@@ -43,7 +53,11 @@
                 Type="text"
                 Label="Autor *"
                 Placeholder="Digite o nome do autor"
-                @bind-Value="@Book.Author"
+                @bind-Value="@_formModel.Author"
+                ErrorMessage="@(
+                    _editContext.GetValidationMessages(() => _formModel.Author).FirstOrDefault()
+                    ?? null
+                )"
             />
 
             <Input
@@ -51,7 +65,11 @@
                 Type="text"
                 Label="URL da Imagem"
                 Placeholder="URL da capa do livro (opcional)"
-                @bind-Value="@Book.CoverImageUrl"
+                @bind-Value="@_formModel.CoverImageUrl"
+                ErrorMessage="@(
+                    _editContext.GetValidationMessages(() => _formModel.CoverImageUrl).FirstOrDefault()
+                    ?? null
+                )"
             />
 
 
@@ -82,6 +100,8 @@
                         }
                     </SelectContent>
                 </Select>
+
+                <ValidationMessage For="@(() => _formModel.ReadStatus)" class="text-red-500 text-sm font-medium leading-none" />
             </div>
 
             @* RATING *@
@@ -93,13 +113,19 @@
                     OnStarsChanged="@HandleRatingChanged"
                     OnClearAll="@(() => HandleRatingChanged(0))"
                 />
+
+                <ValidationMessage For="@(() => _formModel.Rating)" class="text-red-500 text-sm font-medium leading-none" />
             </div>
 
             <TextArea
                 Id="book-comment"
                 Label="Comentário"
                 Placeholder="Suas anotações sobre o livro (opcional)"
-                @bind-Value="@Book.Description"
+                @bind-Value="@_formModel.Description"
+                ErrorMessage="@(
+                    _editContext.GetValidationMessages(() => _formModel.Description).FirstOrDefault()
+                    ?? null
+                )"
             />
 
             @* FOOTER *@
@@ -112,16 +138,20 @@
                     Cancelar
                 </Button>
 
-                <Button ClassName="w-fit" @onclick="@HandleAddBook">
+                <Button ClassName="w-fit" type="submit">
                     Adicionar
                 </Button>
             </div>
-        </div>
+        </EditForm>
         
     </DialogContent>
 </Dialog>
 
 @code {
+    private readonly BookFormModel _formModel = new BookFormModel();
+    private EditContext _editContext = default!;
+
+
     public bool IsDialogOpen { get; set; } = false;
 
     public List<Item> StatusOptions { get; set; } = new List<Item>
@@ -135,10 +165,9 @@
 
     public int Rating { get; set; }
 
-    public Book Book { get; set; } = new Book();
-
     protected override void OnInitialized()
     {
+        _editContext = new EditContext(_formModel);
         BookState.OnChange += StateHasChanged;
     }
 
@@ -167,18 +196,33 @@
 
     private void ResetForm()
     {
-        Book = new Book();
+        _formModel.Title = string.Empty;
+        _formModel.Author = string.Empty;
+        _formModel.CoverImageUrl = string.Empty;
+        _formModel.Description = string.Empty;
+
         StatusSelected = StatusOptions.FirstOrDefault();
+
+        _formModel.ReadStatus =
+            (ReadStatus)int.Parse(StatusSelected!.Value);
+
         Rating = 0;
+        _formModel.Rating = 0;
+
+        _editContext.MarkAsUnmodified();
     }
 
-    public async Task OnStatusSelectedChanged(Item value)
+    public void OnStatusSelectedChanged(Item value)
     {
+        Console.WriteLine($"SELECTED VALUE: {StatusSelected?.Value}");
+        Console.WriteLine($"NEW VALUE: {value?.Value}");
+
         StatusSelected = value;
         
         if (StatusSelected != null)
         {
-            Book.ReadStatus = (ReadStatus)int.Parse(StatusSelected.Value);
+            _formModel.ReadStatus = (ReadStatus)int.Parse(StatusSelected.Value);
+            _editContext.NotifyFieldChanged(FieldIdentifier.Create(() => _formModel.ReadStatus));
         }
     }
 
@@ -190,13 +234,14 @@
     public void HandleRatingChanged(int value)
     {
         Rating = value;
-        Book.Rating = value;
+        _formModel.Rating = value;
+        _editContext.NotifyFieldChanged(FieldIdentifier.Create(() => _formModel.Rating));
     }
 
-    public async Task HandleAddBook()
+    public async Task HandleSubmit()
     {
-        BookState.AddBook(Book);
-        
+        Console.WriteLine($"DATA: {System.Text.Json.JsonSerializer.Serialize(_formModel)}");
+
         IsDialogOpen = false;
     }
 }

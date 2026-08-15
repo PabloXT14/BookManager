@@ -1,4 +1,5 @@
 using BookManager.Infrastructure;
+using BookManager.Web;
 using BookManager.Web.Components;
 using BookManager.Web.States;
 using TailwindMerge.Extensions;
@@ -14,6 +15,7 @@ builder.Services.AddStates();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddWeb();
 
 var app = builder.Build();
 
