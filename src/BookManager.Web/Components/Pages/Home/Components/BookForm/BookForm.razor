@@ -1,0 +1,202 @@
+@using BookManager.Domain.Entities
+@using BookManager.Domain.Enums
+@using BookManager.Web.Components.Shared.Button
+@using BookManager.Web.Components.Shared.Dialog
+@using BookManager.Web.Components.Shared.Input
+@using BookManager.Web.Components.Shared.Rating
+@using BookManager.Web.Components.Shared.Select
+@using BookManager.Web.Components.Shared.TextArea
+@using BookManager.Web.States
+
+@inject BookState BookState
+@implements IDisposable
+
+<Dialog IsOpen="@IsDialogOpen" OpenChanged="@((isOpen) => IsDialogOpen = isOpen)">
+    <DialogTrigger>
+        <Button ClassName="w-fit">
+            <Blazicon
+                Svg="Lucide.Plus"
+                class="text-[16px]"
+            />
+
+            Adicionar livro
+        </Button>
+    </DialogTrigger>
+    
+    <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Adicionar Livro</DialogTitle>
+        </DialogHeader>
+
+        @* FORM *@
+        <div class="w-full flex flex-col gap-4">
+            <Input
+                Id="book-title"
+                Type="text"
+                Label="Título *"
+                Placeholder="Digite o título do livro"
+                @bind-Value="@Book.Title"
+            />
+
+            <Input
+                Id="book-author"
+                Type="text"
+                Label="Autor *"
+                Placeholder="Digite o nome do autor"
+                @bind-Value="@Book.Author"
+            />
+
+            <Input
+                Id="book-url"
+                Type="text"
+                Label="URL da Imagem"
+                Placeholder="URL da capa do livro (opcional)"
+                @bind-Value="@Book.CoverImageUrl"
+            />
+
+
+            @* SELECT *@
+            <div class="flex flex-col gap-2">
+                <label class="text-gray-500 text-sm font-medium leading-none" for="book-status">
+                    Status
+                </label>
+
+                <Select Value="@StatusSelected" ValueChanged="@OnStatusSelectedChanged">
+                    <SelectTrigger ClassName="w-full" Id="book-status">
+                        <SelectedValue Placeholder="Filtrar por" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                        @foreach (var option in StatusOptions)
+                        {
+                            <SelectItem Value="@option" ClassName="w-full flex items-center gap-2">
+                                @option.Label
+
+                                @if (option.Value == StatusSelected?.Value)
+                                {
+                                    <div class="ml-auto">
+                                        <Blazicon Svg="Lucide.Check" class="text-[16px] text-green-base" />
+                                    </div>
+                                }
+                            </SelectItem>
+                        }
+                    </SelectContent>
+                </Select>
+            </div>
+
+            @* RATING *@
+            <div class="flex flex-col gap-2">
+                <Rating
+                    Title="Avaliação"
+                    Stars="@Rating"
+                    Id="book-rating"
+                    OnStarsChanged="@HandleRatingChanged"
+                    OnClearAll="@(() => HandleRatingChanged(0))"
+                />
+            </div>
+
+            <TextArea
+                Id="book-comment"
+                Label="Comentário"
+                Placeholder="Suas anotações sobre o livro (opcional)"
+                @bind-Value="@Book.Description"
+            />
+
+            @* FOOTER *@
+            <div class="flex items-center justify-end gap-2">
+                <Button
+                    ClassName="w-fit"
+                    Variant="Button.Variants.Secondary"
+                    @onclick="@HandleCloseDialog"
+                >
+                    Cancelar
+                </Button>
+
+                <Button ClassName="w-fit" @onclick="@HandleAddBook">
+                    Adicionar
+                </Button>
+            </div>
+        </div>
+        
+    </DialogContent>
+</Dialog>
+
+@code {
+    public bool IsDialogOpen { get; set; } = false;
+
+    public List<Item> StatusOptions { get; set; } = new List<Item>
+    {
+        new Item { Value = "0", Label = "Quero ler" },
+        new Item { Value = "1", Label = "Lendo" },
+        new Item { Value = "2", Label = "Lido" }
+    };
+
+    public Item? StatusSelected { get; set; }
+
+    public int Rating { get; set; }
+
+    public Book Book { get; set; } = new Book();
+
+    protected override void OnInitialized()
+    {
+        BookState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        BookState.OnChange -= StateHasChanged;
+    }
+
+    private bool _wasOpen;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // First render
+        if (IsDialogOpen && !_wasOpen)
+        {
+            _wasOpen = true;
+            ResetForm();
+        }
+
+        if (!IsDialogOpen && _wasOpen)
+        {
+            _wasOpen = false;
+            ResetForm();
+        }
+    }
+
+    private void ResetForm()
+    {
+        Book = new Book();
+        StatusSelected = StatusOptions.FirstOrDefault();
+        Rating = 0;
+    }
+
+    public async Task OnStatusSelectedChanged(Item value)
+    {
+        StatusSelected = value;
+        
+        if (StatusSelected != null)
+        {
+            Book.ReadStatus = (ReadStatus)int.Parse(StatusSelected.Value);
+        }
+    }
+
+    public void HandleCloseDialog()
+    {
+        IsDialogOpen = false;
+    }
+
+    public void HandleRatingChanged(int value)
+    {
+        Rating = value;
+        Book.Rating = value;
+    }
+
+    public async Task HandleAddBook()
+    {
+        BookState.AddBook(Book);
+        
+        IsDialogOpen = false;
+    }
+}
