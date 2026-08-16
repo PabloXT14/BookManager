@@ -32,7 +32,7 @@
     private readonly SelectContext _context = new();
 
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         _context.StateChanged += Refresh;
 
@@ -41,8 +41,15 @@
             Value = value;
             await ValueChanged.InvokeAsync(value);
         };
+        
+        // Set the initial value in the context
+        _context.SyncValue(Value);
+    }
 
-        await _context.SetValueAsync(Value);
+    protected override void OnParametersSet()
+    {
+        // Update the context's value if the Value parameter changes
+        _context.SyncValue(Value);
     }
 
     public void Dispose()

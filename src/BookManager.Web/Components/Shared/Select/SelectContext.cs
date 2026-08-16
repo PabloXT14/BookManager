@@ -14,7 +14,17 @@ public class SelectContext
     public Action? StateChanged { get; set; }
     public void Notify() => StateChanged?.Invoke();
 
-    public async Task SetValueAsync(Item? value)
+
+    public void SyncValue(Item? value)
+    {
+        if (Equals(SelectedValue, value)) return;
+
+        SelectedValue = value;
+
+        Notify();
+    }
+
+    public async Task SelectAsync(Item? value)
     {
         SelectedValue = value;
 

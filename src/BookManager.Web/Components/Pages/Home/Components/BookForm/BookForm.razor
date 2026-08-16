@@ -167,8 +167,11 @@
 
     protected override void OnInitialized()
     {
-        _editContext = new EditContext(_formModel);
         BookState.OnChange += StateHasChanged;
+        
+        _editContext = new EditContext(_formModel);
+        
+        ResetForm();
     }
 
     public void Dispose()
@@ -214,9 +217,6 @@
 
     public void OnStatusSelectedChanged(Item value)
     {
-        Console.WriteLine($"SELECTED VALUE: {StatusSelected?.Value}");
-        Console.WriteLine($"NEW VALUE: {value?.Value}");
-
         StatusSelected = value;
         
         if (StatusSelected != null)
