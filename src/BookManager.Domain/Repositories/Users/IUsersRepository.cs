@@ -9,4 +9,5 @@ public interface IUsersRepository
     Task Add(User user);
     Task Update(User user);
     Task Delete(Guid id);
+    Task<User?> GetByName(string name);
 }

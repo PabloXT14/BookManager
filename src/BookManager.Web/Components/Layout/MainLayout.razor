@@ -1,5 +1,23 @@
-﻿@inherits LayoutComponentBase
+﻿@using BookManager.Web.States
+@inherits LayoutComponentBase
+
+@inject UserState UserState
+@implements IDisposable
 
 <div class="min-h-screen bg-white">
     @Body
 </div>
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {
+        UserState.OnChange += StateHasChanged;
+
+        await UserState.GenerateTestUser();
+    }
+
+    public void Dispose()
+    {
+        UserState.OnChange -= StateHasChanged;
+    }
+}

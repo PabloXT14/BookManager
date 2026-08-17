@@ -43,4 +43,9 @@ internal class UsersRepository : IUsersRepository
             _dbContext.Users.Remove(user);
         }
     }
+
+    public async Task<User?> GetByName(string name)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
+    }
 }
