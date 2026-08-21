@@ -4,15 +4,41 @@
 
 @using BookManager.Web.Components.Pages.Home.Components.BookList
 @using BookManager.Web.Components.Pages.Home.Components.Header
+@using BookManager.Web.States
 
-<PageTitle>Minha Biblioteca</PageTitle>
+@inject UserState UserState
+@implements IDisposable
+
+<PageTitle>Book Manager</PageTitle>
 
 <div class="max-w-281 w-full mx-auto px-4 py-8 flex flex-col gap-8 md:px-16 md:py-8">
     <Header />
 
     <BookList />
+
+    <button @onclick="PrintUserName" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Print User Name
+    </button>
+
+    <p></p>
 </div>
 
 @code {
+    private void PrintUserName()
+    {
+        Console.WriteLine($"USER: {UserState.CurrentUser?.Name}");
+    }
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserState.OnChange += StateHasChanged;
+
+        Console.WriteLine($"USER: {UserState.CurrentUser?.Name}");
+    }
+
+    public void Dispose()
+    {
+        UserState.OnChange -= StateHasChanged;
+    }
 }

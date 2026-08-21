@@ -2,20 +2,26 @@ using BookManager.Infrastructure;
 using BookManager.Web;
 using BookManager.Web.Components;
 using BookManager.Web.States;
+using Microsoft.AspNetCore.Components.Web;
 using TailwindMerge.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
 
 builder.Services.AddTailwindMerge();
-builder.Services.AddStates();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddWeb();
+
+builder.Services.AddStates();
+
+
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .RegisterPersistentService<UserState>(RenderMode.InteractiveServer);
+
 
 var app = builder.Build();
 
